@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+data/raw/
+data/validated/
+outputs/
+reports/
+checkpoints/
+*.pt
+*.pth
+*.ckpt

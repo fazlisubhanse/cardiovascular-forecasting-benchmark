@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software or evidence snapshot, please cite the associated manuscript and this repository release."
+type: software
+title: "Regime- and Horizon-Dependent Forecasting of Hypertension Prevalence and Total Cholesterol: A Leakage-Controlled Benchmark of Statistical, Machine-Learning, and Neural Models"
+version: "1.0.0"
+authors:
+  - family-names: Lai
+    given-names: Weiguo
+  - family-names: Zhou
+    given-names: Nana
+  - family-names: Khan
+    given-names: Jawad
+  - family-names: Subhan
+    given-names: Fazli
+    email: fazlisubhanse@outlook.com

@@ -1,0 +1,22 @@
+expected:
+  raw_sha256: 337cec7bc9e6e6029c8654c34bfc1cab84a76c815de6bf68fac6dc3df8aa4e55
+  row_count: 54
+  first_year: 1970
+  last_year: 2023
+  training_last_year: 2015
+  raw_columns:
+    - Sex
+    - Year
+    - Age
+    - Age-standardised prevalence of hypertension
+    - Mean total cholesterol (mmol/L)
+  column_map:
+    Sex: sex
+    Year: year
+    Age: age_group
+    Age-standardised prevalence of hypertension: asph
+    Mean total cholesterol (mmol/L): mtc
+diagnostics:
+  rolling_window: 5
+  acf_lags: 18
+  pacf_lags: 18
