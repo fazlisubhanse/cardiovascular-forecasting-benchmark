@@ -1,6 +1,6 @@
-# Regime- and Horizon-Dependent Forecasting of Hypertension Prevalence and Total Cholesterol
+# Horizon- and Regime-Aware Forecasting of Hypertension Prevalence and Total Cholesterol
 
-Reproducibility code and frozen final evidence for **“Regime- and Horizon-Dependent Forecasting of Hypertension Prevalence and Total Cholesterol: A Leakage-Controlled Benchmark of Statistical, Machine-Learning, and Neural Models.”**
+Reproducibility code and frozen final evidence for **“Horizon- and Regime-Aware Forecasting of Hypertension Prevalence and Total Cholesterol: A Leakage-Controlled Benchmark Across Statistical, Machine-Learning, and Neural Models.”**
 
 Public repository: **https://github.com/fazlisubhanse/cardiovascular-forecasting-benchmark**. Frozen reproducibility release: **v1.0.0**. No DOI has been assigned.
 
