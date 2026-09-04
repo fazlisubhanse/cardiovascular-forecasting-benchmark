@@ -1,109 +1,70 @@
-# Horizon- and Regime-Aware Forecasting of Hypertension Prevalence and Total Cholesterol
+# Horizon-Aware Forecasting of Hypertension Prevalence and Mean Total Cholesterol in Chinese Men: A Leakage-Controlled Benchmark Across Statistical, Machine-Learning, and Neural Models
 
-Reproducibility code and frozen final evidence for **“Horizon- and Regime-Aware Forecasting of Hypertension Prevalence and Total Cholesterol: A Leakage-Controlled Benchmark Across Statistical, Machine-Learning, and Neural Models.”**
+This public reproducibility package accompanies the fully sourced Round-2 benchmark. It provides the frozen protocol and configurations, executable software, focused tests, non-source-bearing aggregate results, and publication figures that do not reproduce the annual source series.
 
-Public repository: **https://github.com/fazlisubhanse/cardiovascular-forecasting-benchmark**. Frozen reproducibility release: **v1.0.0**. No DOI has been assigned.
+## Main benchmark result
 
-## Study objective
+Within this specific China-male, short-series, rolling-origin evaluation, statistical models ranked first in all 6 target-horizon cells. ARIMA ranked first in 5 cells; ETS ranked first for mean total cholesterol at the 5-year horizon. The primary neural specifications ranked first in 0 cells. These findings are conditional on the two outcomes, official source periods, frozen model specifications, and small evaluation samples used here; they are not a general claim that one model family is universally superior.
 
-This study benchmarks statistical, classical machine-learning, and neural methods for forecasting two annual cardiovascular indicators—age-standardized prevalence of hypertension (ASPH) and mean total cholesterol (MTC)—at 1-, 2-, and 5-year horizons. It tests whether model rankings persist across targets, horizons, and the recent 2016-2023 period, and whether attention or substantially larger neural capacity consistently improves performance.
+The frozen design used:
 
-## Dataset scope and limitations
+- initial observed history H=21;
+- horizons h=1, 2, and 5 years;
+- primary classical machine-learning and neural lookback L=3;
+- 10 fixed neural-network seeds; and
+- 7,242 completed model fits.
 
-The analysis uses a supplied 54-row annual series covering 1970-2023 for men aged 30-79 years. The complete dataset is **not included** because its exact upstream provenance and redistribution rights have not been established. Country/population identity, original provider release, processing lineage, and the observational or projected status of recent values remain unresolved. See [Data access and provenance](docs/DATA_ACCESS.md) before attempting reproduction.
+## DATA NOT REDISTRIBUTED
 
-## Forecasting framework
+The NCD Risk Factor Collaboration (NCD-RisC) source CSVs, extracted annual values, prediction ledgers containing observed values, per-fit checkpoints, and source-series graphics are deliberately absent. The NCD-RisC download pages provide public access, but the licensing review did not identify an explicit dataset-level redistribution licence.
 
-Evaluation uses expanding-window origins for target years 2000-2023, with horizons of 1, 2, and 5 years. Model and representation selection is confined to development targets ending by 1999. Recent-period results reuse the frozen fits and evaluate target years 2016-2023 without retraining. Primary metrics are RMSE, MAE, and MASE; the workflow also reports paired bootstrap intervals, HLN-corrected Diebold-Mariano tests with Holm adjustment, forecast-interval behavior, seed variability, architecture ablations, and computational cost.
+Download the source files from their official hosts and reconstruct the analysis dataset locally by following [DATA_ACCESS.md](DATA_ACCESS.md). The WHO hypertension CSV is also omitted under the package's extra-conservative policy, although its indicator page identifies CC BY 4.0 subject to WHO terms.
 
-## Model families
+## Package map
 
-- Statistical: Naive, Drift, linear trend, ETS, ARIMA, and Theta.
-- Classical machine learning: SVR, RandomForest, and XGBoost with fold-local transformed representations.
-- Neural: LSTM, GRU, BiLSTM, CausalCNN, CNN-LSTM, CNN-GRU, and compact CNN-BiLSTM-attention, plus no-attention and approximately 23K-parameter diagnostic ablations.
+- `config/`: frozen Round-2 temporal protocol and value-free model-configuration maps.
+- `scripts/`: value-free reconstruction, interval-reporting, and source-safe figure code.
+- `src/`: modules required by the authoritative Round-2 benchmark.
+- `tests/`: focused unit tests for metrics, transformations, intervals, leakage controls, and models.
+- `results/round2/`: inspected aggregate results only.
+- `figures/`: Figures 2–4 and Appendix Figure A1 in PNG, PDF, and SVG formats.
+- `provenance/source_manifest_public.csv`: value-free source identity, retrieval, filters, hashes, and licensing status.
+- `NOTICE.md`: separation of project software licensing from third-party data and publication artifacts.
+- `MODE_A_RELEASE_MANIFEST.csv` and `MODE_A_SHA256SUMS.txt`: package inventory and integrity records.
 
-## Leakage controls
+Source-series Figure 1 is not included and cannot be generated by the public figure workflow because it plots the two annual source series with uncertainty bands.
 
-All outer forecasts use only observations available at the forecast origin. Scaling and transformations are fit within each fold. Hyperparameter, representation, lookback, and epoch selection occurs only in the development period. The ten-seed neural evaluation reuses frozen pilot selections; recent-period sensitivity does not retune models. Synthetic unit tests cover target alignment, future-value mutation resistance, scaler boundaries, development cutoffs, and deterministic configuration controls.
+## Quick verification and execution
 
-## Repository structure
+See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the complete cross-platform environment, download, hash-verification, reconstruction, validation, evaluation, and figure workflow. The benchmark entry point is the package module:
 
-```text
-configs/       Frozen analysis and data-validation configurations
-docs/          Data-access and reproducibility guidance
-environment/   Exact observed runtime and dependency lock
-figures/       Final Phase 2D.1 figures in PNG, PDF, and SVG
-results/       Final manuscript tables, figure-source tables, and frozen manifest
-scripts/       Dataset and release validation entry points
-src/           Statistical, ML, neural, comparison, and reporting code
-tests/         Fast non-training scientific and release checks
+```shell
+python -m src.round2_phase2b --workers 4
 ```
 
-Large intermediate forecasts, fit-progress files, checkpoints, development reports, manuscripts, correspondence, and third-party candidate data are intentionally excluded.
+The source-safe public figures are generated and validated with:
 
-## Quick verification — no training
-
-Create the verified Python environment, then run the non-training checks:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+```shell
+python scripts/round2_figures/generate_round2_figures.py
+python scripts/round2_figures/validate_round2_figures.py
 ```
 
-```powershell
-python scripts/verify_release.py
-python -m pytest -q
-```
+Source numerical values never need to be typed manually.
 
-These checks do not require the study dataset and do not fit models.
+## Repository safeguards
 
-## Full reproduction
+The included `.gitignore` prevents accidental versioning of downloaded datasets, reconstructed source values, prediction ledgers, checkpoints, model binaries, and source-series graphics. It is only a preventive version-control safeguard and does not change the licensing status of any third-party dataset.
 
-Full reproduction requires an authorized dataset copy whose SHA-256 matches the frozen configuration. The required sequence is dataset validation, statistical baselines, classical ML, neural pilot, final ten-seed neural evaluation, non-training cross-family integration, and final table/figure generation. The neural steps are extremely long on CPU and generate large intermediate artifacts.
+The included `.gitattributes` normalizes ordinary authored text to LF while preserving the bytes of frozen CSV, JSON, SVG, checksum, manifest, and binary artifacts.
 
-See [Reproducibility guide](docs/REPRODUCIBILITY.md) for exact commands, prerequisites, and runtime labels.
+## Scope and limitations
 
-Expected generated outputs are phase-specific long-form forecasts, selected-configuration and metric tables, statistical comparisons, runtime/provenance records, and figures under `outputs/`, followed by the final Phase 2D.1 evidence package. The complete output tree is large; only final inspection artifacts are staged here.
+ASPH denotes age-standardized prevalence of hypertension among men aged 30–79 years; MTC denotes age-standardized mean total cholesterol among men aged 18 years and older. The targets therefore have different age populations. Unsupported years were excluded, and no interpolation, extrapolation, imputation, smoothing, splicing, or synthetic temporal extension was performed.
 
-## Frozen final results
+Predictive-interval coverage was generally below nominal levels and is descriptive. Unequal interval availability means pooled forecast-level coverage and unweighted means of model-level coverage answer different questions. The ASPH 5-year cell has only 5 forecasts and is extremely unstable.
 
-`results/tables/` contains the five final manuscript result tables and ten figure-source tables. `figures/` contains ten final figures in three formats. `results/FROZEN_RESULTS_MANIFEST.json` is the Phase 2D.1 source-artifact manifest. These files are a read-only final evidence snapshot; intermediate model outputs are not included.
+## Citation and licensing
 
-The primary overall winners were RandomForest for ASPH at horizons 1 and 2, Naive for ASPH at horizon 5, CausalCNN for MTC at horizon 1, XGBoost for MTC at horizon 2, and ARIMA for MTC at horizon 5. No family was universally best.
+Please cite the study and both source publications when using this package. Project software is provided under the MIT License in `LICENSE`. That software licence does not grant rights in NCD-RisC or WHO data and does not relicense the aggregate results or publication figures; see `NOTICE.md` and `DATA_ACCESS.md`.
 
-## Interpretation cautions
-
-The benchmark contains only 54 annual observations and two supplied series. Rankings are target-, horizon-, and period-dependent. Non-rejection in a statistical test is not proof of equivalence. Neural ablations are descriptive, and greater capacity did not confer a general advantage. The unresolved provenance and licensing limitations constrain external interpretation and data redistribution.
-
-## Computational cost
-
-The frozen final neural run comprised 12,060 successful model fits across ten prespecified seeds and retained 540 representative checkpoint records. The supplied code can reproduce that experiment, but model binaries/checkpoints are not distributed. Consult `results/tables/table_computational_cost.csv` for measured phase-level and model-level costs.
-
-## Software environment
-
-The verified neural environment used Python 3.11.9, PyTorch 2.13.0+cpu, deterministic algorithms, one PyTorch thread per fit, and CPU execution on Windows-10-10.0.26200-SP0. `requirements.txt` and `environment/requirements-lock.txt` contain the exact captured package versions; `environment/runtime_environment.csv` records the directly observed runtime. No claim of bitwise equivalence on other hardware or operating systems is made.
-
-## Citation
-
-Citation metadata are supplied in `CITATION.cff` with software version `1.0.0`. No repository URL, DOI, or ORCID has been added because none has been author-verified for this release. Add repository or archival identifiers only after they actually exist.
-
-## License
-
-- **Code and software:** MIT License. See `LICENSE`.
-- **Original documentation and author-created figures/tables:** Creative Commons Attribution 4.0 International (CC BY 4.0).
-- **Data and third-party materials:** excluded unless separately and explicitly stated.
-
-The complete study dataset, candidate NCD-RisC files, third-party downloads, and uncertain-provenance candidate materials are not distributed and are outside both repository license scopes. See `LICENSE-CONTENT.md` for the precise file-level scope.
-
-## Contact
-
-Fazli Subhan, corresponding author
-
-School of Information and Artificial Intelligence
-
-Yangzhou University
-
-Yangzhou, Jiangsu 225127, China
-
-Email: fazlisubhanse@outlook.com
+The immutable release identifier for this package is `v2.0.0-round2`.

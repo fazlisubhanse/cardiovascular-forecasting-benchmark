@@ -1,0 +1,2612 @@
+{
+  "protocol_version": "round2-phase2a1-v1.0",
+  "supersedes_protocol_version": "round2-phase2a-v1.0",
+  "phase2a_creation_timestamp": "2026-09-02T10:21:51+08:00",
+  "creation_timestamp": "2026-09-02T10:40:20+08:00",
+  "status": "frozen_executable_ready_for_phase2b",
+  "scope": "Executable temporal evaluation protocol; contains no performance results and performed no model training",
+  "processed_dataset": {
+    "path": "data/processed/china_male_official_cardiovascular_series.csv",
+    "sha256": "4575b29feee41e3832c9c2e51c9c0f8f0e312d5e7f4df9b87ce75e13e705c3e2",
+    "row_count": 69
+  },
+  "target_definitions": {
+    "ASPH": {
+      "definition": "Age-standardized prevalence of hypertension",
+      "country": "China",
+      "sex": "Male",
+      "age_population": "Adults aged 30–79 years",
+      "start_year": 1990,
+      "end_year": 2019,
+      "observation_count": 30,
+      "unit": "proportion",
+      "primary_source": "NCD-RisC Lancet 2021 full-precision country-level hypertension dataset"
+    },
+    "MTC": {
+      "definition": "Age-standardized mean total cholesterol",
+      "country": "China",
+      "sex": "Male",
+      "age_population": "Adults aged 18 years and older",
+      "start_year": 1980,
+      "end_year": 2018,
+      "observation_count": 39,
+      "unit": "mmol/L",
+      "primary_source": "NCD-RisC Nature 2020 age-standardized country cholesterol dataset"
+    }
+  },
+  "old_protocol_semantics": {
+    "source_period": "1970–2023 (54 annual observations)",
+    "initial_train_end_year": 1999,
+    "initial_raw_history_length": 30,
+    "final_available_year": 2023,
+    "origin_definition": "The forecast origin is the final observed year included in the expanding training history.",
+    "target_year_formula": "target_year = origin_year + horizon",
+    "training_rule": "Use every observation from the series start through origin_year, inclusive.",
+    "horizon_implementation": "Statistical models forecast steps 1, 2, and 5 from an origin; ML and neural models construct separate direct-horizon labels at s+h.",
+    "reported_counts": {
+      "h1": 24,
+      "h2": 23,
+      "h5": 20
+    },
+    "count_explanation": "One target is recorded per valid origin. Counts are determined by target-year availability through 2023: T-H-h+1, not by successful model fits."
+  },
+  "supervised_sample_rules": {
+    "H_definition": "raw observations available through the forecast origin",
+    "first_difference_direct": "N_supervised = max(0, H - horizon - lookback)",
+    "linear_detrend_direct": "N_supervised = max(0, H - horizon - lookback + 1)",
+    "raw_level_direct": "N_supervised = max(0, H - horizon - lookback + 1)",
+    "minimum_supervised_samples": 12,
+    "candidate_eligibility": "A representation/lookback candidate with fewer than 12 supervised rows is explicitly infeasible for that origin; the threshold must not be lowered."
+  },
+  "selected_initial_history_rule": {
+    "rule": "Begin evaluation after 21 observed annual values are available for each target.",
+    "minimum_raw_history_length": 21,
+    "selection_basis": [
+      "chosen before viewing any reconstructed-data model performance",
+      "preserves 12 supervised rows for the most demanding already-frozen neural configurations",
+      "retains more ASPH folds than 22- or 25-year alternatives",
+      "uses the same history-count rule rather than identical calendar years"
+    ],
+    "H25_rejection": "H=25 would leave ASPH h=5 with only one forecast; retain H=21 and resolve short-series feasibility with an a-priori fixed L=3 instead."
+  },
+  "evaluation_calendars": {
+    "ASPH": {
+      "initial_raw_history_length": 21,
+      "first_forecast_origin_year": 2010,
+      "training_window_rule": "Expanding window from the target's official first year through origin_year, inclusive.",
+      "future_information_allowed": false,
+      "horizons": {
+        "1": {
+          "first_origin_year": 2010,
+          "final_origin_year": 2018,
+          "first_target_year": 2011,
+          "final_target_year": 2019,
+          "forecast_count": 9,
+          "origin_years": [
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ],
+          "target_years": [
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+          ]
+        },
+        "2": {
+          "first_origin_year": 2010,
+          "final_origin_year": 2017,
+          "first_target_year": 2012,
+          "final_target_year": 2019,
+          "forecast_count": 8,
+          "origin_years": [
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017
+          ],
+          "target_years": [
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+          ]
+        },
+        "5": {
+          "first_origin_year": 2010,
+          "final_origin_year": 2014,
+          "first_target_year": 2015,
+          "final_target_year": 2019,
+          "forecast_count": 5,
+          "origin_years": [
+            2010,
+            2011,
+            2012,
+            2013,
+            2014
+          ],
+          "target_years": [
+            2015,
+            2016,
+            2017,
+            2018,
+            2019
+          ]
+        }
+      }
+    },
+    "MTC": {
+      "initial_raw_history_length": 21,
+      "first_forecast_origin_year": 2000,
+      "training_window_rule": "Expanding window from the target's official first year through origin_year, inclusive.",
+      "future_information_allowed": false,
+      "horizons": {
+        "1": {
+          "first_origin_year": 2000,
+          "final_origin_year": 2017,
+          "first_target_year": 2001,
+          "final_target_year": 2018,
+          "forecast_count": 18,
+          "origin_years": [
+            2000,
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017
+          ],
+          "target_years": [
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ]
+        },
+        "2": {
+          "first_origin_year": 2000,
+          "final_origin_year": 2016,
+          "first_target_year": 2002,
+          "final_target_year": 2018,
+          "forecast_count": 17,
+          "origin_years": [
+            2000,
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016
+          ],
+          "target_years": [
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ]
+        },
+        "5": {
+          "first_origin_year": 2000,
+          "final_origin_year": 2013,
+          "first_target_year": 2005,
+          "final_target_year": 2018,
+          "forecast_count": 14,
+          "origin_years": [
+            2000,
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013
+          ],
+          "target_years": [
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ]
+        }
+      }
+    }
+  },
+  "expected_forecast_counts": {
+    "ASPH": {
+      "h1": 9,
+      "h2": 8,
+      "h5": 5
+    },
+    "MTC": {
+      "h1": 18,
+      "h2": 17,
+      "h5": 14
+    }
+  },
+  "feasibility_matrix": [
+    {
+      "target": "ASPH",
+      "initial_history": 14,
+      "first_origin": 2003,
+      "first_target_h1": 2004,
+      "first_target_h2": 2005,
+      "first_target_h5": 2008,
+      "final_target": 2019,
+      "n_h1": 16,
+      "n_h2": 15,
+      "n_h5": 12,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "2": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          },
+          "5": {
+            "3": 6,
+            "5": 4,
+            "6": 3,
+            "8": 1
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 1,
+      "minimum_nsup_frozen_neural_configuration": 5,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 6,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 15,
+      "first_origin": 2004,
+      "first_target_h1": 2005,
+      "first_target_h2": 2006,
+      "first_target_h5": 2009,
+      "final_target": 2019,
+      "n_h1": 15,
+      "n_h2": 14,
+      "n_h5": 11,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 2,
+      "minimum_nsup_frozen_neural_configuration": 6,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 7,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 16,
+      "first_origin": 2005,
+      "first_target_h1": 2006,
+      "first_target_h2": 2007,
+      "first_target_h5": 2010,
+      "final_target": 2019,
+      "n_h1": 14,
+      "n_h2": 13,
+      "n_h5": 10,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 3,
+      "minimum_nsup_frozen_neural_configuration": 7,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 8,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 17,
+      "first_origin": 2006,
+      "first_target_h1": 2007,
+      "first_target_h2": 2008,
+      "first_target_h5": 2011,
+      "final_target": 2019,
+      "n_h1": 13,
+      "n_h2": 12,
+      "n_h5": 9,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 4,
+      "minimum_nsup_frozen_neural_configuration": 8,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 9,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 18,
+      "first_origin": 2007,
+      "first_target_h1": 2008,
+      "first_target_h2": 2009,
+      "first_target_h5": 2012,
+      "final_target": 2019,
+      "n_h1": 12,
+      "n_h2": 11,
+      "n_h5": 8,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 5,
+      "minimum_nsup_frozen_neural_configuration": 9,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 10,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 19,
+      "first_origin": 2008,
+      "first_target_h1": 2009,
+      "first_target_h2": 2010,
+      "first_target_h5": 2013,
+      "final_target": 2019,
+      "n_h1": 11,
+      "n_h2": 10,
+      "n_h5": 7,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 6,
+      "minimum_nsup_frozen_neural_configuration": 10,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 11,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 20,
+      "first_origin": 2009,
+      "first_target_h1": 2010,
+      "first_target_h2": 2011,
+      "first_target_h5": 2014,
+      "final_target": 2019,
+      "n_h1": 10,
+      "n_h2": 9,
+      "n_h5": 6,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 7,
+      "minimum_nsup_frozen_neural_configuration": 11,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 12,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 21,
+      "first_origin": 2010,
+      "first_target_h1": 2011,
+      "first_target_h2": 2012,
+      "first_target_h5": 2015,
+      "final_target": 2019,
+      "n_h1": 9,
+      "n_h2": 8,
+      "n_h5": 5,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 8,
+      "minimum_nsup_frozen_neural_configuration": 12,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 13,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 22,
+      "first_origin": 2011,
+      "first_target_h1": 2012,
+      "first_target_h2": 2013,
+      "first_target_h5": 2016,
+      "final_target": 2019,
+      "n_h1": 8,
+      "n_h2": 7,
+      "n_h5": 4,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 9,
+      "minimum_nsup_frozen_neural_configuration": 13,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 14,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 23,
+      "first_origin": 2012,
+      "first_target_h1": 2013,
+      "first_target_h2": 2014,
+      "first_target_h5": 2017,
+      "final_target": 2019,
+      "n_h1": 7,
+      "n_h2": 6,
+      "n_h5": 3,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 10,
+      "minimum_nsup_frozen_neural_configuration": 14,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 15,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 24,
+      "first_origin": 2013,
+      "first_target_h1": 2014,
+      "first_target_h2": 2015,
+      "first_target_h5": 2018,
+      "final_target": 2019,
+      "n_h1": 6,
+      "n_h2": 5,
+      "n_h5": 2,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 11,
+      "minimum_nsup_frozen_neural_configuration": 15,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 16,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "ASPH",
+      "initial_history": 25,
+      "first_origin": 2014,
+      "first_target_h1": 2015,
+      "first_target_h2": 2016,
+      "first_target_h5": 2019,
+      "final_target": 2019,
+      "n_h1": 5,
+      "n_h2": 4,
+      "n_h5": 1,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 22,
+            "5": 20,
+            "6": 19,
+            "8": 17
+          },
+          "2": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "5": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 22,
+            "5": 20,
+            "6": 19,
+            "8": 17
+          },
+          "2": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "5": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 12,
+      "minimum_nsup_frozen_neural_configuration": 16,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": true,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": true,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": true,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 17,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 14,
+      "first_origin": 1993,
+      "first_target_h1": 1994,
+      "first_target_h2": 1995,
+      "first_target_h5": 1998,
+      "final_target": 2018,
+      "n_h1": 25,
+      "n_h2": 24,
+      "n_h5": 21,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "2": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          },
+          "5": {
+            "3": 6,
+            "5": 4,
+            "6": 3,
+            "8": 1
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 1,
+      "minimum_nsup_frozen_neural_configuration": 5,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 6,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 15,
+      "first_origin": 1994,
+      "first_target_h1": 1995,
+      "first_target_h2": 1996,
+      "first_target_h5": 1999,
+      "final_target": 2018,
+      "n_h1": 24,
+      "n_h2": 23,
+      "n_h5": 20,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "2": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          },
+          "5": {
+            "3": 7,
+            "5": 5,
+            "6": 4,
+            "8": 2
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 2,
+      "minimum_nsup_frozen_neural_configuration": 6,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 7,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 16,
+      "first_origin": 1995,
+      "first_target_h1": 1996,
+      "first_target_h2": 1997,
+      "first_target_h5": 2000,
+      "final_target": 2018,
+      "n_h1": 23,
+      "n_h2": 22,
+      "n_h5": 19,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "2": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          },
+          "5": {
+            "3": 8,
+            "5": 6,
+            "6": 5,
+            "8": 3
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 3,
+      "minimum_nsup_frozen_neural_configuration": 7,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 8,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 17,
+      "first_origin": 1996,
+      "first_target_h1": 1997,
+      "first_target_h2": 1998,
+      "first_target_h5": 2001,
+      "final_target": 2018,
+      "n_h1": 22,
+      "n_h2": 21,
+      "n_h5": 18,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "2": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          },
+          "5": {
+            "3": 9,
+            "5": 7,
+            "6": 6,
+            "8": 4
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 4,
+      "minimum_nsup_frozen_neural_configuration": 8,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 9,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 18,
+      "first_origin": 1997,
+      "first_target_h1": 1998,
+      "first_target_h2": 1999,
+      "first_target_h5": 2002,
+      "final_target": 2018,
+      "n_h1": 21,
+      "n_h2": 20,
+      "n_h5": 17,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "2": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          },
+          "5": {
+            "3": 10,
+            "5": 8,
+            "6": 7,
+            "8": 5
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 5,
+      "minimum_nsup_frozen_neural_configuration": 9,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 10,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 19,
+      "first_origin": 1998,
+      "first_target_h1": 1999,
+      "first_target_h2": 2000,
+      "first_target_h5": 2003,
+      "final_target": 2018,
+      "n_h1": 20,
+      "n_h2": 19,
+      "n_h5": 16,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "2": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          },
+          "5": {
+            "3": 11,
+            "5": 9,
+            "6": 8,
+            "8": 6
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 6,
+      "minimum_nsup_frozen_neural_configuration": 10,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 11,
+      "amended_fixed_l3_primary_workflow_executable": false
+    },
+    {
+      "target": "MTC",
+      "initial_history": 20,
+      "first_origin": 1999,
+      "first_target_h1": 2000,
+      "first_target_h2": 2001,
+      "first_target_h5": 2004,
+      "final_target": 2018,
+      "n_h1": 19,
+      "n_h2": 18,
+      "n_h5": 15,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "2": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          },
+          "5": {
+            "3": 12,
+            "5": 10,
+            "6": 9,
+            "8": 7
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 7,
+      "minimum_nsup_frozen_neural_configuration": 11,
+      "all_frozen_neural_final_refits_feasible": false,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": false,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 12,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 21,
+      "first_origin": 2000,
+      "first_target_h1": 2001,
+      "first_target_h2": 2002,
+      "first_target_h5": 2005,
+      "final_target": 2018,
+      "n_h1": 18,
+      "n_h2": 17,
+      "n_h5": 14,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "2": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          },
+          "5": {
+            "3": 13,
+            "5": 11,
+            "6": 10,
+            "8": 8
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 8,
+      "minimum_nsup_frozen_neural_configuration": 12,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 13,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 22,
+      "first_origin": 2001,
+      "first_target_h1": 2002,
+      "first_target_h2": 2003,
+      "first_target_h5": 2006,
+      "final_target": 2018,
+      "n_h1": 17,
+      "n_h2": 16,
+      "n_h5": 13,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "2": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          },
+          "5": {
+            "3": 14,
+            "5": 12,
+            "6": 11,
+            "8": 9
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 9,
+      "minimum_nsup_frozen_neural_configuration": 13,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 14,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 23,
+      "first_origin": 2002,
+      "first_target_h1": 2003,
+      "first_target_h2": 2004,
+      "first_target_h5": 2007,
+      "final_target": 2018,
+      "n_h1": 16,
+      "n_h2": 15,
+      "n_h5": 12,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "2": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          },
+          "5": {
+            "3": 15,
+            "5": 13,
+            "6": 12,
+            "8": 10
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 10,
+      "minimum_nsup_frozen_neural_configuration": 14,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 15,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 24,
+      "first_origin": 2003,
+      "first_target_h1": 2004,
+      "first_target_h2": 2005,
+      "first_target_h5": 2008,
+      "final_target": 2018,
+      "n_h1": 15,
+      "n_h2": 14,
+      "n_h5": 11,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "2": {
+            "3": 19,
+            "5": 17,
+            "6": 16,
+            "8": 14
+          },
+          "5": {
+            "3": 16,
+            "5": 14,
+            "6": 13,
+            "8": 11
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 11,
+      "minimum_nsup_frozen_neural_configuration": 15,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": false,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": false,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": false,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 16,
+      "amended_fixed_l3_primary_workflow_executable": true
+    },
+    {
+      "target": "MTC",
+      "initial_history": 25,
+      "first_origin": 2004,
+      "first_target_h1": 2005,
+      "first_target_h2": 2006,
+      "first_target_h5": 2009,
+      "final_target": 2018,
+      "n_h1": 14,
+      "n_h2": 13,
+      "n_h5": 10,
+      "supervised_examples_at_first_origin": {
+        "first_difference_direct": {
+          "1": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "2": {
+            "3": 20,
+            "5": 18,
+            "6": 17,
+            "8": 15
+          },
+          "5": {
+            "3": 17,
+            "5": 15,
+            "6": 14,
+            "8": 12
+          }
+        },
+        "linear_detrend_direct": {
+          "1": {
+            "3": 22,
+            "5": 20,
+            "6": 19,
+            "8": 17
+          },
+          "2": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "5": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          }
+        },
+        "raw_level_direct": {
+          "1": {
+            "3": 22,
+            "5": 20,
+            "6": 19,
+            "8": 17
+          },
+          "2": {
+            "3": 21,
+            "5": 19,
+            "6": 18,
+            "8": 16
+          },
+          "5": {
+            "3": 18,
+            "5": 16,
+            "6": 15,
+            "8": 13
+          }
+        }
+      },
+      "minimum_nsup_all_lookbacks_horizons": 12,
+      "minimum_nsup_frozen_neural_configuration": 16,
+      "all_frozen_neural_final_refits_feasible": true,
+      "existing_nested_ml_h5_has_inner_origin": true,
+      "all_frozen_model_families_have_an_eligible_final_fit": true,
+      "all_frozen_models_execute_with_unmodified_selection_workflows": true,
+      "historical_neural_validation_all_horizons_feasible_at_first_origin": true,
+      "neural_outer_final_fit_uses_validation_or_early_stopping": false,
+      "fixed_l3_h5_minimum_nsup": 17,
+      "amended_fixed_l3_primary_workflow_executable": true
+    }
+  ],
+  "model_freeze": {
+    "statistical": [
+      "Naive",
+      "Drift",
+      "LinearTrend",
+      "ETS",
+      "ARIMA",
+      "Theta"
+    ],
+    "classical_ml": [
+      "SVR",
+      "RandomForest",
+      "XGBoost"
+    ],
+    "primary_representations": [
+      "first_difference_direct",
+      "linear_detrend_direct"
+    ],
+    "diagnostic_representations": [
+      "raw_level_direct"
+    ],
+    "historical_candidate_lookbacks": [
+      3,
+      5,
+      6,
+      8
+    ],
+    "primary_lookback": 3,
+    "primary_lookbacks": [
+      3
+    ],
+    "fixed_lookback_applies_to": [
+      "classical_ml",
+      "primary_neural",
+      "diagnostic_neural_ablations",
+      "raw_level_diagnostic_if_executed"
+    ],
+    "diagnostic_lookbacks": [],
+    "omitted_legacy_lookbacks": [
+      5,
+      6,
+      8
+    ],
+    "omitted_legacy_lookback_reason": "Omitted from the Round-2 rerun to avoid unnecessary short-series complexity and multiplicity; they cannot replace or select the L=3 primary result.",
+    "lookback_selection_mode": "fixed_a_priori",
+    "nested_performance_based_lookback_selection_enabled": false,
+    "evaluation_performance_based_lookback_selection_enabled": false,
+    "minimum_supervised_samples": 12,
+    "first_origin_h5_l3_supervised_samples": {
+      "first_difference_direct": 13,
+      "linear_detrend_direct": 14,
+      "raw_level_direct": 14
+    },
+    "primary_neural": [
+      "LSTM",
+      "GRU",
+      "BiLSTM",
+      "CausalCNN",
+      "CNN_LSTM",
+      "CNN_GRU",
+      "CNN_BiLSTM_Attention_Compact"
+    ],
+    "diagnostic_neural_ablations": [
+      "CNN_BiLSTM_Compact_NoAttention",
+      "CNN_BiLSTM_Attention_Original23K"
+    ],
+    "seeds": [
+      3101,
+      3102,
+      3103,
+      3104,
+      3105,
+      3106,
+      3107,
+      3108,
+      3109,
+      3110
+    ],
+    "retuning_prohibited": true,
+    "evaluation_performance_must_not_select_split_or_configuration": true,
+    "neural_outer_fit": "Use frozen epoch budgets, every eligible supervised row, validation_n=0, and no early stopping.",
+    "round2_protocol_adaptation": "Disable the old nested performance-based lookback selector and fit all primary ML/neural direct-horizon models with L=3 fixed before model execution.",
+    "all_primary_models_structurally_executable": true,
+    "runtime_failure_policy": "Retain and report numerical or library fit failures; structural executability is not a guarantee that every fit converges."
+  },
+  "recent_sensitivity": {
+    "decision": "disabled_and_removed",
+    "execution_enabled": false,
+    "winner_table_enabled": false,
+    "model_selection_comparisons_enabled": false,
+    "terminology": "Do not use recent regime, regime-aware, or equivalent claims/titles.",
+    "reason": "ASPH h1 has only nine primary target years; a final-eight-year window would nearly duplicate the primary evaluation and would not be an independent temporal-regime assessment."
+  },
+  "metrics_policy": {
+    "primary_ranking_metrics": [
+      "RMSE",
+      "MAE",
+      "MASE"
+    ],
+    "additional_reported_metrics": [
+      "RMSSE",
+      "sMAPE",
+      "directional_accuracy",
+      "mean_error",
+      "median_error"
+    ],
+    "reporting_completeness_rule": "Every Methods-listed metric must appear in a main table or a specifically cited appendix table."
+  },
+  "inference_feasibility": {
+    "ASPH": {
+      "1": {
+        "forecast_count": 9,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "exploratory and low-powered",
+        "hln_dm_technically_defined_by_current_code": true,
+        "hln_correction_term": 0.8888888888888888,
+        "dm_reporting_enabled": true,
+        "comparative_inference_policy": "exploratory_low_power",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      },
+      "2": {
+        "forecast_count": 8,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "exploratory and low-powered",
+        "hln_dm_technically_defined_by_current_code": true,
+        "hln_correction_term": 0.65625,
+        "dm_reporting_enabled": true,
+        "comparative_inference_policy": "exploratory_low_power",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      },
+      "5": {
+        "forecast_count": 5,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "descriptive/exploratory with extreme instability",
+        "hln_dm_technically_defined_by_current_code": false,
+        "hln_correction_term": 0.0,
+        "dm_reporting_enabled": false,
+        "comparative_inference_policy": "descriptive_only; do not report DM, assign a p-value, or claim equivalence/similarity",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      }
+    },
+    "MTC": {
+      "1": {
+        "forecast_count": 18,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "report with small-sample caution",
+        "hln_dm_technically_defined_by_current_code": true,
+        "hln_correction_term": 0.9444444444444444,
+        "dm_reporting_enabled": true,
+        "comparative_inference_policy": "prespecified_DM_and_bootstrap_with_small_sample_caution",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      },
+      "2": {
+        "forecast_count": 17,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "report with small-sample caution",
+        "hln_dm_technically_defined_by_current_code": true,
+        "hln_correction_term": 0.8304498269896193,
+        "dm_reporting_enabled": true,
+        "comparative_inference_policy": "prespecified_DM_and_bootstrap_with_small_sample_caution",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      },
+      "5": {
+        "forecast_count": 14,
+        "descriptive_metrics": [
+          "RMSE",
+          "MAE",
+          "MASE",
+          "RMSSE",
+          "sMAPE",
+          "directional_accuracy",
+          "mean_error",
+          "median_error"
+        ],
+        "paired_bootstrap": "report with small-sample caution",
+        "hln_dm_technically_defined_by_current_code": true,
+        "hln_correction_term": 0.45918367346938777,
+        "dm_reporting_enabled": true,
+        "comparative_inference_policy": "prespecified_DM_and_bootstrap_with_small_sample_caution",
+        "holm_adjustment": "apply only across valid formal DM comparisons; exclude undefined tests",
+        "empirical_interval_coverage": "descriptive only; report valid interval n and missing/invalid intervals"
+      }
+    }
+  },
+  "timing_instrumentation": {
+    "clock": "time.perf_counter() monotonic wall-clock seconds",
+    "required_fields": [
+      "per_fit_elapsed_wall_clock_seconds",
+      "cumulative_fit_time_seconds",
+      "overall_experiment_wall_clock_seconds",
+      "parallel_worker_count",
+      "cpu_model",
+      "gpu_model_or_explicit_none",
+      "ram",
+      "operating_system",
+      "python_version",
+      "library_versions",
+      "successful_fit_count",
+      "failed_fit_count",
+      "seed_level_timing",
+      "model_family_timing"
+    ],
+    "per_fit_elapsed_wall_clock": "Record selection, feature construction, fit, forecast, interval, and total elapsed seconds for every target/model/horizon/origin/seed fit.",
+    "cumulative_fit_time": "Sum per-fit fit_seconds separately; never label this as experiment duration.",
+    "overall_experiment_wall_clock": "Measure once around the complete orchestrated run, including worker scheduling and reporting.",
+    "parallel_worker_count": "Record configured and observed workers for each run stage.",
+    "hardware_and_software": [
+      "CPU model",
+      "GPU model or explicit none",
+      "RAM",
+      "operating system",
+      "Python version",
+      "library versions"
+    ],
+    "fit_counts": [
+      "successful fits",
+      "failed fits"
+    ],
+    "breakdowns": [
+      "seed-level timing",
+      "model-family timing"
+    ],
+    "reporting_rule": "Future results must label cumulative compute time and elapsed experiment wall-clock time as different quantities."
+  },
+  "prohibitions": [
+    "No model training or forecasting in Phase 2A.1",
+    "No interpolation, extrapolation, imputation, smoothing, or synthetic extension of the source series",
+    "No future observation in any fold",
+    "No target-year feature leakage",
+    "No evaluation-period performance for split, representation, lookback, hyperparameter, or epoch selection",
+    "No nested performance-based lookback selection in the Round-2 primary analysis",
+    "No recent-period or regime model-selection analysis",
+    "No manuscript, frozen first-round result, Git tag, or release modification"
+  ]
+}

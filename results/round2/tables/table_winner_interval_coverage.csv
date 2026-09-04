@@ -1,0 +1,7 @@
+target,horizon,winner,forecast_n,valid_interval_n,nominal_80_coverage,empirical_80_coverage,nominal_95_coverage,empirical_95_coverage,interval_method,mean_interval_width_80,mean_interval_width_95,small_sample_caution
+ASPH,1,ARIMA,9,9,0.8,1.0,0.95,1.0,frozen statistical model-native or training-only empirical method,0.0007657475094179,0.0011711097548171,Small evaluation window (n=9); descriptive coverage only.
+ASPH,2,ARIMA,8,8,0.8,1.0,0.95,1.0,frozen statistical model-native or training-only empirical method,0.0021289314297579,0.003255919652447,Small evaluation window (n=8); descriptive coverage only.
+ASPH,5,ARIMA,5,5,0.8,0.4,0.95,1.0,frozen statistical model-native or training-only empirical method,0.0081283358034248,0.0124312168603143,EXTREME instability: only 5 forecast observations; descriptive coverage only.
+MTC,1,ARIMA,18,18,0.8,0.5,0.95,0.6666666666666666,frozen statistical model-native or training-only empirical method,0.0005518209540733,0.0008439373217404,Small evaluation window (n=18); descriptive coverage only.
+MTC,2,ARIMA,17,17,0.8,0.4705882352941176,0.95,0.5294117647058824,frozen statistical model-native or training-only empirical method,0.001658769061716,0.0025368683610101,Small evaluation window (n=17); descriptive coverage only.
+MTC,5,ETS,14,14,0.8,0.0,0.95,0.0,frozen statistical model-native or training-only empirical method,0.001743754659455,0.0019854528450843,Small evaluation window (n=14); descriptive coverage only.

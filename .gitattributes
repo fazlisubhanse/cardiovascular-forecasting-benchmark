@@ -1,0 +1,23 @@
+# Normalize ordinary authored text to LF in the repository and working tree.
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+LICENSE text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Preserve byte identity for frozen data, protocol, manifests, and vector art.
+*.csv -text
+*.json -text
+*.svg -text
+MODE_A_RELEASE_MANIFEST.csv -text
+MODE_A_SHA256SUMS.txt -text
+
+# Explicit binary treatment for publication images and documents.
+*.png binary
+*.pdf binary
+*.docx binary

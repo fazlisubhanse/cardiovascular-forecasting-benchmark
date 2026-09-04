@@ -1,0 +1,260 @@
+{
+  "completed_utc": "2026-09-02T12:15:08.315022+00:00",
+  "experiment_wall_clock_seconds": 1903.845097,
+  "current_resume_invocation_wall_clock_seconds": 10.564398499998788,
+  "experiment_start_utc_from_first_fit": "2026-09-02T11:43:24.469925+00:00",
+  "cumulative_per_fit_elapsed_wall_clock_seconds": 7445.070476199813,
+  "cumulative_estimator_fit_seconds": 6797.4990005999425,
+  "cumulative_prediction_seconds": 16.94939479983441,
+  "cumulative_feature_seconds": 28.08662620002724,
+  "cumulative_selection_seconds": 310.3293924000536,
+  "cumulative_interval_seconds": 136.9958394999485,
+  "planned_fit_count": 7242,
+  "attempted_fit_count_total": 7243,
+  "successful_fit_count": 7242,
+  "failed_fit_count": 1,
+  "unresolved_failed_fit_count": 0,
+  "not_attempted_fit_count": 0,
+  "attempted_this_invocation": 0,
+  "resumed_fit_count_this_invocation": 7242,
+  "skipped_completed_fit_count_this_invocation": 7242,
+  "auxiliary_calibration_fit_count_this_invocation": 0,
+  "configured_parallel_worker_count": 18,
+  "parallel_strategy": "ProcessPoolExecutor across frozen neural target-horizon-architecture cells; one Torch thread per process",
+  "hardware": {
+    "cpu_model": "Intel(R) Core(TM) Ultra 9 185H",
+    "physical_cpu_count": 16,
+    "logical_cpu_count": 22,
+    "ram_bytes": 33733398528,
+    "gpu_model": "none; CPU-only execution"
+  },
+  "family_summaries": [
+    {
+      "model_family": "classical_ml",
+      "planned_fit_count": 426,
+      "successful_fit_count": 426,
+      "unresolved_failed_fit_count": 0,
+      "attempted_fit_count": 426,
+      "failed_attempt_count": 0,
+      "cumulative_per_fit_elapsed_seconds": 179.53351389995078,
+      "cumulative_estimator_fit_seconds": 37.87830419996317,
+      "median_per_fit_elapsed_seconds": 0.05215929999758373,
+      "maximum_per_fit_elapsed_seconds": 4.805252500002098
+    },
+    {
+      "model_family": "neural_ablation",
+      "planned_fit_count": 1420,
+      "successful_fit_count": 1420,
+      "unresolved_failed_fit_count": 0,
+      "attempted_fit_count": 1420,
+      "failed_attempt_count": 0,
+      "cumulative_per_fit_elapsed_seconds": 1250.4070825000017,
+      "cumulative_estimator_fit_seconds": 1205.6453538999267,
+      "median_per_fit_elapsed_seconds": 0.8843361500003084,
+      "maximum_per_fit_elapsed_seconds": 5.135659400002623
+    },
+    {
+      "model_family": "primary_neural",
+      "planned_fit_count": 4970,
+      "successful_fit_count": 4970,
+      "unresolved_failed_fit_count": 0,
+      "attempted_fit_count": 4971,
+      "failed_attempt_count": 1,
+      "cumulative_per_fit_elapsed_seconds": 5693.467304999918,
+      "cumulative_estimator_fit_seconds": 5550.405545700094,
+      "median_per_fit_elapsed_seconds": 1.0807972500006144,
+      "maximum_per_fit_elapsed_seconds": 6.869863299994904
+    },
+    {
+      "model_family": "statistical",
+      "planned_fit_count": 426,
+      "successful_fit_count": 426,
+      "unresolved_failed_fit_count": 0,
+      "attempted_fit_count": 426,
+      "failed_attempt_count": 0,
+      "cumulative_per_fit_elapsed_seconds": 321.6625747999424,
+      "cumulative_estimator_fit_seconds": 3.569796799958567,
+      "median_per_fit_elapsed_seconds": 0.013319599998794729,
+      "maximum_per_fit_elapsed_seconds": 5.704190199998266
+    }
+  ],
+  "seed_summaries": [
+    {
+      "model_family": "classical_ml",
+      "seed": 20260810,
+      "fit_count": 426,
+      "successful_fit_count": 426,
+      "cumulative_per_fit_elapsed_seconds": 179.53351389995078,
+      "cumulative_estimator_fit_seconds": 37.87830419996317
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3101,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 139.59330860002956,
+      "cumulative_estimator_fit_seconds": 120.64847449997615
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3102,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 124.11367240002437,
+      "cumulative_estimator_fit_seconds": 121.21756399995502
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3103,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 123.6872751999108,
+      "cumulative_estimator_fit_seconds": 120.76713160000509
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3104,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 123.17537349991471,
+      "cumulative_estimator_fit_seconds": 120.43886960000236
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3105,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 122.47447349999129,
+      "cumulative_estimator_fit_seconds": 119.6923695000005
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3106,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 121.14647500001593,
+      "cumulative_estimator_fit_seconds": 118.22638890007511
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3107,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 123.13877110006433,
+      "cumulative_estimator_fit_seconds": 120.36518869995052
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3108,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 124.49542590002966,
+      "cumulative_estimator_fit_seconds": 121.51862769994477
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3109,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 124.28171570006089,
+      "cumulative_estimator_fit_seconds": 121.34791029999906
+    },
+    {
+      "model_family": "neural_ablation",
+      "seed": 3110,
+      "fit_count": 142,
+      "successful_fit_count": 142,
+      "cumulative_per_fit_elapsed_seconds": 124.30059159996017,
+      "cumulative_estimator_fit_seconds": 121.42282910001813
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3101,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 624.7639876998874,
+      "cumulative_estimator_fit_seconds": 561.4817156000499
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3102,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 571.8266038999936,
+      "cumulative_estimator_fit_seconds": 559.3992543000568
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3103,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 564.914245299995,
+      "cumulative_estimator_fit_seconds": 556.4715089000674
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3104,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 565.7554386999109,
+      "cumulative_estimator_fit_seconds": 557.2230921000519
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3105,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 560.7195094000999,
+      "cumulative_estimator_fit_seconds": 552.516369299985
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3106,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 562.7636993000269,
+      "cumulative_estimator_fit_seconds": 554.2654051000354
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3107,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 566.0913676999335,
+      "cumulative_estimator_fit_seconds": 557.430199499955
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3108,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 558.2186261000679,
+      "cumulative_estimator_fit_seconds": 550.0267548998963
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3109,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 558.7737775999703,
+      "cumulative_estimator_fit_seconds": 550.4560697000052
+    },
+    {
+      "model_family": "primary_neural",
+      "seed": 3110,
+      "fit_count": 497,
+      "successful_fit_count": 497,
+      "cumulative_per_fit_elapsed_seconds": 559.6400493000328,
+      "cumulative_estimator_fit_seconds": 551.1351762999911
+    },
+    {
+      "model_family": "statistical",
+      "seed": 20260810,
+      "fit_count": 426,
+      "successful_fit_count": 426,
+      "cumulative_per_fit_elapsed_seconds": 321.6625747999424,
+      "cumulative_estimator_fit_seconds": 3.569796799958567
+    }
+  ],
+  "timing_interpretation": "Cumulative per-fit elapsed time is the sum of output-fit task durations (including feature/selection/interval work) and is distinct from overall experiment wall-clock time."
+}

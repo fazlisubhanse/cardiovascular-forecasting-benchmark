@@ -1,12 +1,41 @@
-.venv/
-__pycache__/
-.pytest_cache/
-*.py[cod]
+# Downloaded or reconstructed private datasets
 data/raw/
+data/raw_official/
+data/processed/
 data/validated/
+data/provenance_candidates/
+
+# Source-bearing benchmark outputs
+results/round2/predictions_long.csv
+results/round2/neural_ensemble_predictions.csv
+results/round2/progress/
+results/round2/figures/official_reconstructed_source_series.*
+results/round2/final_figures/figure_1_provenance_framework.*
+figures/figure_1_provenance_framework.*
+
+# Local and generated content
 outputs/
-reports/
-checkpoints/
+__pycache__/
+*.py[cod]
+*.pkl
+*.joblib
 *.pt
 *.pth
-*.ckpt
+.venv/
+venv/
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+secrets*.json
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

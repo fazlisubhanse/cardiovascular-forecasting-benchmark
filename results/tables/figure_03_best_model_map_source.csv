@@ -1,7 +1,0 @@
-Target,Horizon,Best Overall Model
-asph,1,RandomForest
-asph,2,RandomForest
-asph,5,Naive
-mtc,1,CausalCNN
-mtc,2,XGBoost
-mtc,5,ARIMA

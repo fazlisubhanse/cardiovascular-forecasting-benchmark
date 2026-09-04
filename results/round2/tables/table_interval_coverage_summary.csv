@@ -1,0 +1,13 @@
+target,horizon,nominal_coverage,interval_capable_model_specification_count,total_valid_model_forecast_interval_predictions,minimum_valid_interval_n_across_specifications,maximum_valid_interval_n_across_specifications,unweighted_mean_of_model_level_empirical_coverage,pooled_coverage_across_valid_model_forecast_interval_predictions,minimum_model_level_empirical_coverage,maximum_model_level_empirical_coverage
+ASPH,1,0.8,12,66,2,9,0.6898148148148149,0.5454545454545454,0.0,1.0
+ASPH,1,0.95,12,66,2,9,0.7546296296296297,0.6515151515151515,0.0,1.0
+ASPH,2,0.8,6,48,8,8,0.4375,0.4375,0.0,1.0
+ASPH,2,0.95,6,48,8,8,0.4375,0.4375,0.0,1.0
+ASPH,5,0.8,6,30,5,5,0.2333333333333333,0.23333333333333334,0.0,1.0
+ASPH,5,0.95,6,30,5,5,0.3666666666666667,0.36666666666666664,0.0,1.0
+MTC,1,0.8,12,174,11,18,0.638888888888889,0.5919540229885057,0.0,1.0
+MTC,1,0.95,12,174,11,18,0.7083333333333334,0.6781609195402298,0.0,1.0
+MTC,2,0.8,12,156,9,17,0.5958605664488017,0.5,0.0,1.0
+MTC,2,0.95,12,156,9,17,0.6791938997821351,0.6089743589743589,0.0,1.0
+MTC,5,0.8,12,102,3,14,0.5892857142857143,0.3235294117647059,0.0,1.0
+MTC,5,0.95,12,102,3,14,0.6607142857142857,0.4411764705882353,0.0,1.0
